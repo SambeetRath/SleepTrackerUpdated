@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>LOGIN to Your Account</title>
+  <style type="text/css">
+    .main {
+      background: url(https://healthkura.com/wp-content/uploads/2021/04/waking-up-with-blurry-vision-in-the-morning.jpg);
+      background-size: 100%;
+    }
+
+    .ip {
+      text-align: center;
+
+      padding: 30px;
+      margin: 30px;
+      border-radius: 30px;
+    }
+
+    .sub {
+      background-image: linear-gradient(grey, #CCFFFF);
+      border-radius: 10px;
+      text-shadow: 2px;
+      box-shadow: 2px 2px;
+      text-align: center;
+      padding: 20px;
+      background-color: #20b2aa;
+      color: black;
+      border: solid black 2px;
+      width: 40%
+    }
+    .can {
+      background-image: linear-gradient(#ff0000);
+      border-radius: 10px;
+      text-shadow: 2px;
+      box-shadow: 2px 2px;
+      text-align: center;
+      padding: 20px;
+      background-color: #f72b10b6;
+      color: black;
+      border: solid black 2px;
+      width: 20%
+    }
+    .h {
+      background-image: linear-gradient(grey, #CCFFFF);
+      border-radius: 10px;
+      text-shadow: 2px;
+      box-shadow: 2px 2px;
+      text-align: center;
+      padding: 20px;
+      background-color: #20b2aa;
+      color: black;
+      border: solid black 2px;
+      width: 10%
+    }
+
+  </style>
+</head>
+
+<body class="main">
+  <div style="text-align: right;">
+        <br>
+    <a href="http://localhost:3000/"><button class="can" >CANCEL</button></a>
+    </div>
+  <div>
+        <br>
+    <a href="http://localhost:3000/home"><button class="h" >HOME</button></a>
+    </div>
+    <br><br>
+
+  <div id="sign">
+    <form onsubmit="logIn(event)">
+      <div class="ip">
+        <label>YOUR CREDENTIALS</label>
+        <br><br>
+        <br><br>
+        <label>Email</label>
+        <input type="email" id="email" name="email" placeholder="User Name" required>
+        <br><br>
+        <label>Password</label>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <br><br>
+      </div>
+      <br><br>
+      <br><br>
+      <div style="text-align: center;">
+        <button class="sub" type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    function logIn(event) {
+      event.preventDefault()
+      const data = {};
+      data.email = document.getElementById("email").value;
+      data.password = document.getElementById("password").value;
+      let h = document.createElement("h3");
+      fetch('http://localhost:3000/api/users/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => response.json())
+        .then(res => {
+          if (res.success === 1) {
+            sessionStorage.setItem("uniqueToken", res.token);
+            let t1 = document.createTextNode("Login Successful");
+            h.appendChild(t1);
+            document.body.appendChild(h);
+          } else {
+            let t2 = document.createTextNode(res.message);
+            h.appendChild(t2);
+            document.body.appendChild(h);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  </script>
+</body>
+
+</html>

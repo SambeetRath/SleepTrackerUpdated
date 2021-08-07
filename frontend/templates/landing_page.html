@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+  <title>Track My SLEEP</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="http://localhost:3000/static/css/landing_page.css">
+
+</head>
+
+<body style="background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUtJXrL0AVEmZmynA6ODalUU_oQ6DByqEm7A&usqp=CAU);
+                                              background-size: 100%">
+    <br><h1 style="color: rgb(207, 12, 12);text-align: center;text-shadow: black;">WELCOME TO THE SOUND SLEEP TRACKER</h1>
+  <!--Your Main contents-->
+  <div id="main" class="flex-container">
+
+    <h2 style="color: black;">SIGN UP OR LOGIN to continue   <h2>
+
+        <a href="http://localhost:3000/signup"><button class="button button1">SIGNUP</button></a>
+        <a href="http://localhost:3000/login"><button class="button button2">LOGIN</button>
+        </a>
+
+        </object>
+
+  </div>
+
+  <!--Your Splash Screen-->
+  <div id="splash" class="flex-container" style="background: url(https://singularityhub.com/wp-content/uploads/2019/02/learning-while-sleeping-neuroscience-shutterstock-686222875-1068x601.png) ; 
+  background-size: 100% ; display: none">
+
+    <!--Center align Splash contents in all screen sizes-->
+    <div id="flex-item">
+      <br><br><br>
+      <i class="fa fa-bed" aria-hidden="true" fa-5x></i>
+
+      <h1 style="color: white;">Man is a genius when he is dreaming.<h1>
+    </div>
+  </div>
+
+  <div class="footer">
+    <h5>Designed by Sambeet Rath</h5>
+    <h5>Email sambeetrath29@gmail.com</h5>
+  </div>
+
+  <!--  Scripts-->
+  <script type="text/javascript">
+
+    function fade(element) {
+      var op = 1;  // initial opacity
+      var timer = setInterval(function () {
+        if (op <= 0.1) {
+          clearInterval(timer);
+
+          element.style.display = 'none';
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op -= op * 0.1;
+      }, 50);
+    }
+
+    setTimeout(function () {
+
+      if (typeof (Storage) !== "undefined") {
+
+        console.log("Already shown" + sessionStorage.getItem('spalashShown'));
+
+        if (!sessionStorage.getItem('spalashShown') || sessionStorage.getItem('spalashShown') === null) {
+
+          document.getElementById('splash').style.display = 'inline';
+
+          //Display splash
+          setTimeout(function () {
+
+            fade(document.getElementById('splash'));
+
+            sessionStorage.setItem('spalashShown', true);
+          }
+            , 3000);
+
+        } else {
+
+          //Display Main Content
+          document.getElementById('splash').style.display = 'none'
+          console.log("Already shown");
+        }
+      }
+
+      else {
+        document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
+      }
+    }, 0);
+
+  </script>
+</body>
+
+</html>

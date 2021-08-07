@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>UPDATE YOUR SLEEP SCHEDULE</title>
+<style type="text/css">
+    .main {
+      background: url(https://healthkura.com/wp-content/uploads/2021/04/waking-up-with-blurry-vision-in-the-morning.jpg);
+      background-size: 100%;
+    }
+
+    .ip {
+      text-align: center;
+
+      padding: 30px;
+      margin: 30px;
+      border-radius: 30px;
+    }
+
+    .sub {
+      background-image: linear-gradient(grey, #CCFFFF);
+      border-radius: 10px;
+      text-shadow: 2px;
+      box-shadow: 2px 2px;
+      text-align: center;
+      padding: 20px;
+      background-color: #20b2aa;
+      color: black;
+      border: solid black 2px;
+      width: 40%
+    }
+      .h {
+      background-image: linear-gradient(grey, #CCFFFF);
+      border-radius: 10px;
+      text-shadow: 2px;
+      box-shadow: 2px 2px;
+      text-align: center;
+      padding: 20px;
+      background-color: #20b2aa;
+      color: black;
+      border: solid black 2px;
+      width: 10%
+    }
+    
+    .lo {
+      background-image: linear-gradient(#ff0000);
+      border-radius: 10px;
+      text-shadow: 2px;
+      box-shadow: 2px 2px;
+      text-align: center;
+      padding: 20px;
+      background-color: #f72b10b6;
+      color: black;
+      border: solid black 2px;
+      width: 12%
+    }
+  </style>
+
+</head>
+
+<body class="main">
+  <div style="text-align: right;">
+    <a href="http://localhost:3000/"><button class="lo">LOG OUT</button></a>
+    </div>
+<a href="http://localhost:3000/home"><button class="h">HOME PAGE</button></a>
+  <br><br>
+  <div>
+    <form onsubmit="runSleep(event)">
+      <div class="ip">
+        <label>Update your sleep details</label>
+        <br><br>
+        <label>Sleep Date</label>
+        <input type="date" id="sleepDate" name="sleepDate">
+        <br><br>
+        <label>Sleep Time</label>
+        <input type="datetime" id="sleepTime" name="sleepTime" placeholder="YYYY-MM-DD HH:MM:SS">
+        <br><br>
+        <label>Wake Time</label>
+        <input type="datetime" id="wakeTime" name="wakeTime" placeholder="YYYY-MM-DD HH:MM:SS">
+        <br><br>
+      </div>
+      <br><br>
+      <br><br>
+      <div style="text-align: center;">
+        <button class="sub" type="submit">Update</button>
+    </form>
+  </div>
+  <script>
+    function runSleep(event) {
+      event.preventDefault();
+      const data = {};
+      data.id = sessionStorage.getItem("sleepId");
+      data.sleepDate = document.getElementById("sleepDate").value;
+      data.sleepTime = document.getElementById("sleepTime").value;
+      data.wakeTime = document.getElementById("wakeTime").value;
+      let h = document.createElement("h3");
+      let token = sessionStorage.getItem("uniqueToken");
+      fetch('http://localhost:3000/api/sleeps', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => response.json())
+        .then(res => {
+          if (res.success === 1) {
+            let t1 = document.createTextNode("Updated Successful");
+            h.appendChild(t1);
+            document.body.appendChild(h);
+          } else {
+            let t2 = document.createTextNode("Failed to Update");
+            h.appendChild(t2);
+            document.body.appendChild(h);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  </script>
+</body>
+
+</html>

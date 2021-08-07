@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>SIGNUP to a NEW Account</title>
+  <style type="text/css">
+    .main {
+      background: url(https://healthkura.com/wp-content/uploads/2021/04/waking-up-with-blurry-vision-in-the-morning.jpg) ; 
+      background-size: 100%;
+    }
+
+    .ip {
+      text-align: center;
+      
+      padding: 30px;
+      margin: 30px;
+      border-radius: 30px;
+    }
+
+    .sub {
+      background-image: linear-gradient(grey , #CCFFFF);
+      border-radius: 10px;
+      text-shadow: 2px;
+      box-shadow: 2px 2px;
+      text-align: center;
+      padding: 20px;
+      background-color: #20b2aa;
+      color: black;
+      border: solid black 2px;
+      width: 40%
+    }
+    .sub1 {
+      background-image: linear-gradient(grey , #CCFFFF);
+      border-radius: 10px;
+      text-shadow: 2px;
+      box-shadow: 2px 2px;
+      text-align: center;
+      padding: 20px;
+      background-color: #20b2aa;
+      color: black;
+      border: solid black 2px;
+      width: 20%
+    }
+    .can {
+      background-image: linear-gradient(red);
+      border-radius: 10px;
+      text-shadow: 2px;
+      box-shadow: 2px 2px;
+      text-align: center;
+      padding: 20px;
+      background-color: #f11f0f;
+      color: black;
+      border: solid black 2px;
+      width: 20%
+    }
+  </style>
+</head>
+
+<body class="main">
+  <br>
+  <div style="text-align: right;">
+    <a href="http://localhost:3000/"><button class="can" >CANCEL</button></a>
+    </div>
+  
+  <div id="sign">
+    <div class="ip">
+      <label>PERSONAL DATA</label>
+      <br><br>
+      <label>First Name</label>
+      <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+      <br><br>
+      <label>Last Name</label>
+      <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+      <br><br>
+      <label>Email</label>
+      <input type="email" id="email" name="email" placeholder="User Name" required>
+      <br><br>
+      <label>Password</label>
+      <input type="password" id="password" name="password" placeholder="Password" required>
+      <br><br>
+    </div>
+    <br><br>
+    
+    <div style="text-align: center;">
+      <button class="sub" onclick="signUp(event)">SIGNUP</button>
+    </div>
+    <br><br>
+    <div style="text-align: center;">
+        <br>
+    <a href="http://localhost:3000/login"><button class="sub1">GO TO LOGIN PAGE</button></a>
+    </div>
+  </div>
+  <script>
+    function signUp(event) {
+      event.preventDefault()
+      const data = {};
+      data.firstName = document.getElementById("firstName").value;
+      data.lastName = document.getElementById("lastName").value;
+      data.email = document.getElementById("email").value;
+      data.password = document.getElementById("password").value;
+      fetch('http://localhost:3000/api/users/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => response.json())
+        .then(res => {
+          let h = document.createElement("h3");
+          let t1 = document.createTextNode("User Created Successfully");
+          let t2 = document.createTextNode("Something went wrong");
+          if (res.success === 1)
+            h.appendChild(t1);
+          else
+            h.appendChild(t2);
+          document.body.appendChild(h);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  </script>
+</body>
+
+</html>

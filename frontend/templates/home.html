@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME PAGE</title>
+    <style type="text/css">
+    .main {
+      background: url(https://healthkura.com/wp-content/uploads/2021/04/waking-up-with-blurry-vision-in-the-morning.jpg);
+      background-size: 100%;
+      text-align: center;
+    }
+    .h {
+      background-image: linear-gradient(#ff0000);
+      border-radius: 10px;
+      text-shadow: 2px;
+      box-shadow: 2px 2px;
+      text-align: center;
+      padding: 20px;
+      background-color: #f72b10b6;
+      color: black;
+      border: solid black 2px;
+      width: 12%
+    }
+
+    .add {
+      background-image: linear-gradient(grey, #CCFFFF);
+      border-radius: 10px;
+      text-shadow: 2px;
+      box-shadow: 2px 2px;
+      text-align: center;
+      padding: 20px;
+      background-color: #20b2aa;
+      color: black;
+      border: solid black 2px;
+      width: 10%
+    }
+
+</style>
+
+</head>
+
+<body class="main" id="output" onload="getData()">
+    <div style="text-align: right;">
+        
+    <a href="http://localhost:3000/"><button class="h">LOG OUT</button></a>
+    </div>
+    <a href="http://localhost:3000/createSleep"><button class="add">AddSleep</button></a>
+    <script>
+        function getData() {
+            let url = "http://localhost:3000/api/sleeps";
+            let token = sessionStorage.getItem("uniqueToken");
+            let h = new Headers();
+            h.append("Authorization", `Bearer ${token}`);
+            let req = new Request(url, {
+                method: "GET",
+                headers: h
+            });
+            fetch(req)
+                .then(data => data.json())
+                .then(res => {
+                    let output = document.getElementById('output');
+                    const sleeps = res.data;
+                    sleeps.forEach(sleep => {
+                        let div = document.createElement("div");
+                        div.style.margin = "3rem";
+
+                        let sleepDate = document.createElement("p");
+                        sleepDate.innerHTML = `Sleep Date: ${sleep.sleepDate}`;
+                        div.appendChild(sleepDate);
+
+                        let sleepTime = document.createElement("p");
+                        sleepTime.innerHTML = `Sleep Time: ${sleep.sleepTime}`;
+                        div.appendChild(sleepTime);
+
+                        let wakeTime = document.createElement("p");
+                        wakeTime.innerHTML = `Wake Time: ${sleep.wakeTime}`;
+                        div.appendChild(wakeTime);
+
+                        let sleepDuration = document.createElement("p");
+
+                        sleepDuration.innerHTML = `Sleep Duration: ${sleep.sleepDuration}`;
+                        div.appendChild(sleepDuration);
+
+                        let updateAnchor = document.createElement("a");
+                        updateAnchor.href = "http://localhost:3000/updatesleep";
+
+                        let updateButton = document.createElement("button");
+                        updateButton.innerText = "Update";
+                        updateButton.addEventListener("click", function () {
+                            sessionStorage.setItem("sleepId", sleep.id);
+                        });
+                        updateAnchor.appendChild(updateButton);
+                        div.appendChild(updateAnchor);
+
+                        let deleteButton = document.createElement("button");
+                        deleteButton.innerText = "Delete";
+                        deleteButton.addEventListener("click", function () {
+                            deleteSleep(sleep.id);
+                        });
+                        div.appendChild(deleteButton);
+
+                        output.appendChild(div);
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+
+        function deleteSleep(sleepId) {
+            const data = {};
+            data.id = sleepId;
+            let token = sessionStorage.getItem("uniqueToken");
+            fetch('http://localhost:3000/api/sleeps', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(res => {
+                    if (res.success === 1) {
+                        alert("Successfully Deleted");
+                    } else {
+                        alert("Something went wrong!");
+                    }
+                    location.reload();
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    </script>
+</body>
+
+</html>

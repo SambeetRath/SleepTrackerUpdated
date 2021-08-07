@@ -1,0 +1,64 @@
+html,
+body,
+.viewport {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.flex-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -moz-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+#flex-item {
+  text-align: center;
+  margin: auto;
+}
+
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: #4caf50;
+}
+.button2 {
+  background-color: #008cba;
+}
+
+.footer {
+  text-shadow: #4caf50;
+  height: 90px;
+  position: fixed;
+  left: -2px;
+  bottom: -2px;
+  width: 98%;
+  text-align: center;
+}
